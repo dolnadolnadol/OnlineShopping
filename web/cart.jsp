@@ -15,7 +15,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cart</title>
+        <title>Online Shopping[Cart]</title>
     </head>
     <jsp:useBean id="emp" class="model.Shoppingcart" scope="request"/>
      <%
@@ -24,7 +24,7 @@
      %>
     <body>
         <center>
-        <h1>Online Shopping[Cart]</h1>
+        <h1>Shopping Cart</h1>
         <form action="Confirmaddcart" method="POST">
             <table border="1" cellspacing="2" cellpadding="2">
                 <thead>
