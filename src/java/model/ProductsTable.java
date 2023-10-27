@@ -45,29 +45,6 @@ public class ProductsTable {
         }
         return empList;
     }
-    public static int removeProducts(int id) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("OnlineShoppingPU");
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            Products target = em.find(Products.class, id);
-            if (target == null) {
-                return 0;
-}
-            em.remove(target);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            
-        }
-        finally {
-            em.close();
-            emf.close();
-        }
-        return 1;
-    }
-    
-    
     public static int insertProducts(Products emp) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("OnlineShoppingPU");
         EntityManager em = emf.createEntityManager();
@@ -89,9 +66,4 @@ public class ProductsTable {
         }
         return 1;
     }
-    
-    
-
-    
-
 }

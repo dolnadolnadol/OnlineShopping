@@ -55,7 +55,7 @@ public class CartTable {
     public static int lastId() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("OnlineShoppingPU");
         EntityManager em = emf.createEntityManager();
-        int last = 1;
+        int last = 0;
         List<Shoppingcart> shoppingCartList = null;
         try{
             shoppingCartList = (List<Shoppingcart>) em.createNamedQuery("Shoppingcart.findAll").getResultList();

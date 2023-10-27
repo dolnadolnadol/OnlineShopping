@@ -40,20 +40,20 @@ public class AddProduct extends HttpServlet {
             throws ServletException, IOException, InterruptedException {
         Shoppingcart cart = new Shoppingcart();        
         List<Shoppingcart> lst = new ArrayList<Shoppingcart>();
-        
-        HttpSession session = request.getSession();
+
+        HttpSession session = request.getSession(false);
         try{
-//            if(session.isNew()){
-//                session.setAttribute("errmsg", "session END");
-//                request.getRequestDispatcher("showerr_session.jsp").forward(request, response);
-//            }else{
+            if(session==null){
                 session = request.getSession();
+                session.setAttribute("errmsg", "SESSION ERR");
+                request.getRequestDispatcher("showerr_session.jsp").forward(request, response);
+            }else{
                 int lastid = CartTable.lastId();
                 Enumeration<String> parameterNames = request.getParameterNames();
                 while (parameterNames.hasMoreElements()) {
                     String paramName = parameterNames.nextElement();
                     if (paramName.startsWith("check_")) {
-                        
+
                         // A checkbox with name starting with "product_" was checked
                         String productId = paramName.substring("check_".length());
                         String quantityParam = "quantity_" + productId;
@@ -67,8 +67,8 @@ public class AddProduct extends HttpServlet {
                         cart.setQuantity(Integer.parseInt(quantity));
                         lst.add(cart);
                     }
-//                }
-                session.setAttribute("product",lst);
+                    session.setAttribute("product",lst);
+                }
             }
         }
         finally{

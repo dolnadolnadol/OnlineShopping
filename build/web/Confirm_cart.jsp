@@ -14,14 +14,12 @@
     <body>
         <%
             String tt = (String) session.getAttribute("Total");
+            Double num = Double.parseDouble(tt);
+            String format = String.format("%.2f", num);
         %>
         <h1>Your Order is confirmed!</h1>
         <%
-            if(session.isNew()){
-                request.setAttribute("errmsg", "SESSION END");
-                request.getRequestDispatcher("showerr_session.jsp");
-            }
-            out.println("<h2>The Total Amount is "+ tt +"$</h2>");
+            out.println("<h2>The Total Amount is $"+ format +"</h2>");
             session.invalidate();
         %>
         <form action="productCatalog.jsp">

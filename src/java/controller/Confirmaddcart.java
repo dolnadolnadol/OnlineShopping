@@ -39,7 +39,7 @@ public class Confirmaddcart extends HttpServlet {
         try{
             if(session==null){
                 session = request.getSession();
-                session.setAttribute("errmsg", "ERR");
+                session.setAttribute("errmsg", "SESSION ERR");
                 request.getRequestDispatcher("showerr_session.jsp").forward(request, response);
             }else{
                 List<Shoppingcart> sc = (List<Shoppingcart>)session.getAttribute("product");
