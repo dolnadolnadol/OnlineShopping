@@ -33,26 +33,34 @@ public class Confirmaddcart extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Double total = Double.parseDouble(request.getParameter("total"));
-        HttpSession session = request.getSession();
-        List<Shoppingcart> sc = (List<Shoppingcart>)session.getAttribute("product");
-        for(Shoppingcart ct : sc){
-            CartTable.insertCart(ct);
+        String Total = request.getParameter("total");
+        HttpSession session = request.getSession(false);
+        int chk = 1;
+        try{
+            if(session==null){
+                session = request.getSession();
+                session.setAttribute("errmsg", "ERR");
+                request.getRequestDispatcher("showerr_session.jsp").forward(request, response);
+            }else{
+                List<Shoppingcart> sc = (List<Shoppingcart>)session.getAttribute("product");
+                for(Shoppingcart ct : sc){
+                    chk = CartTable.insertCart(ct);
+                }
+                session.setAttribute("Total", Total);
+            }
         }
-        String Total = String.format("%.2f", total);
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Online Shopping</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Your Order is confirmed!</h1>");
-            out.println("<h2>The Total Amount is $"+Total+" </h2>");
-            out.println("</body>");
-            out.println("</html>");
+        finally{
+            if(chk==0){
+                session.setAttribute("errmsg", "INSERT ERROR");
+                request.getRequestDispatcher("showerr_session.jsp").forward(request, response); 
+            }else{
+                request.getRequestDispatcher("Confirm_cart.jsp").forward(request, response); 
+            }
         }
+        
+        
+        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

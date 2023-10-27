@@ -19,7 +19,6 @@ import model.CartTable;
 import model.Products;
 import model.ProductsTable;
 import model.Shoppingcart;
-import utilities.counter;
 
 /**
  *
@@ -35,29 +34,47 @@ public class AddProduct extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.InterruptedException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, InterruptedException {
         Shoppingcart cart = new Shoppingcart();        
         List<Shoppingcart> lst = new ArrayList<Shoppingcart>();
+        
         HttpSession session = request.getSession();
-        Enumeration<String> parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String paramName = parameterNames.nextElement();
-            if (paramName.startsWith("check_")) {
-                // A checkbox with name starting with "product_" was checked
-                String productId = paramName.substring("check_".length());
-                String quantityParam = "quantity_" + productId;
-                String quantity = request.getParameter(quantityParam);
-                Products pd = ProductsTable.findProductsById(Integer.parseInt(productId));
-                cart = new Shoppingcart(counter.getCount(),Integer.parseInt(productId));
-                cart.setProducts(pd);
-                cart.setQuantity(Integer.parseInt(quantity));
-                lst.add(cart);
+        try{
+//            if(session.isNew()){
+//                session.setAttribute("errmsg", "session END");
+//                request.getRequestDispatcher("showerr_session.jsp").forward(request, response);
+//            }else{
+                session = request.getSession();
+                int lastid = CartTable.lastId();
+                Enumeration<String> parameterNames = request.getParameterNames();
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    if (paramName.startsWith("check_")) {
+                        
+                        // A checkbox with name starting with "product_" was checked
+                        String productId = paramName.substring("check_".length());
+                        String quantityParam = "quantity_" + productId;
+                        String quantity = request.getParameter(quantityParam);
+                        if(quantity.equals("")){
+                            continue;
+                        }
+                        Products pd = ProductsTable.findProductsById(Integer.parseInt(productId));
+                        cart = new Shoppingcart(lastid+1,Integer.parseInt(productId));
+                        cart.setProducts(pd);
+                        cart.setQuantity(Integer.parseInt(quantity));
+                        lst.add(cart);
+                    }
+//                }
+                session.setAttribute("product",lst);
             }
         }
-        session.setAttribute("product",lst);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);       
+        finally{
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
+        }
+               
     }   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

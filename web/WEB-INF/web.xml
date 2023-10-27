@@ -5,28 +5,32 @@
         <servlet-class>controller.AddProduct</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Removefromcart</servlet-name>
-        <servlet-class>controller.Removefromcart</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Confirmaddcart</servlet-name>
         <servlet-class>controller.Confirmaddcart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Endsession</servlet-name>
+        <servlet-class>controller.Endsession</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddProduct</servlet-name>
         <url-pattern>/AddProduct</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Removefromcart</servlet-name>
-        <url-pattern>/Removefromcart</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Confirmaddcart</servlet-name>
         <url-pattern>/Confirmaddcart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Endsession</servlet-name>
+        <url-pattern>/Endsession</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>productCatalog.jsp</welcome-file>
+    </welcome-file-list>
+
 </web-app>

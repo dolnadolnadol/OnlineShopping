@@ -21,7 +21,6 @@
      <%
             List<Shoppingcart> sc = (List<Shoppingcart>)session.getAttribute("product");
             Iterator<Shoppingcart> itr = sc.iterator();
-            
      %>
     <body>
         <center>

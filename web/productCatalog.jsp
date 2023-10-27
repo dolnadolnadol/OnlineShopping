@@ -38,6 +38,7 @@
                 </thead>
                 <tbody>
                         <%
+                            session = request.getSession();
                             while(itr.hasNext()) {
                                 emp = itr.next();
                                 out.println("<tr>");

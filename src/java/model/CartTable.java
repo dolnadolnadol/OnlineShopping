@@ -42,12 +42,34 @@ public class CartTable {
             em.persist(emp);
             em.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             em.getTransaction().rollback();
+            return 0;
         }
         finally {
             em.close();
             emf.close();
         }
         return 1;
+    }
+    public static int lastId() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("OnlineShoppingPU");
+        EntityManager em = emf.createEntityManager();
+        int last = 1;
+        List<Shoppingcart> shoppingCartList = null;
+        try{
+            shoppingCartList = (List<Shoppingcart>) em.createNamedQuery("Shoppingcart.findAll").getResultList();
+            for(Shoppingcart spCart : shoppingCartList){
+                if(spCart.getShoppingcartPK().getCartId() > last){
+                    last = spCart.getShoppingcartPK().getCartId();
+                }
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        } finally {
+            em.close();
+            emf.close();
+        }
+        return last;
     }
 }
