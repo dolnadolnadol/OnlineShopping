@@ -24,7 +24,7 @@
      %>
     <body>
         <center>
-        <h1>Shopping Cart</h1>
+        <h1>Online Shopping[Cart]</h1>
         <form action="Confirmaddcart" method="POST">
             <table border="1" cellspacing="2" cellpadding="2">
                 <thead>
